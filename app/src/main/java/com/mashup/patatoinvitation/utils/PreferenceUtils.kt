@@ -6,7 +6,7 @@ import android.content.SharedPreferences
 object PreferenceUtils {
     private val TAG = PreferenceUtils::class.java.simpleName
 
-    const val PREFERENCES_NAME = "preference_util"
+    private const val PREFERENCES_NAME = "preference_util"
 
     private const val DEFAULT_STRING = ""
     private const val DEFAULT_BOOLEAN = false
@@ -15,23 +15,17 @@ object PreferenceUtils {
     private const val DEFAULT_LONG = 0L
     private const val DEFAULT_FLOAT = 0f
 
-    /**
-     * Preferences를 얻어온다.
-     */
-    private fun getPreferences(context: Context?): SharedPreferences? {
-        return context?.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
+    lateinit var prefs: SharedPreferences
+
+    fun setInstance(context: Context) {
+        context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
     }
 
     /**
      * Preferences 초기화.
      */
-    fun clearPreferences(context: Context?) {
-        val prefs =
-            getPreferences(
-                context
-            )
-
-        if (null != prefs) {
+    fun clearPreferences() {
+        if (::prefs.isInitialized) {
             val editor = prefs.edit()
             editor.clear()
             editor.apply()
@@ -41,12 +35,8 @@ object PreferenceUtils {
     /**
      * String 저장
      */
-    fun putString(context: Context?, key: String?, value: String?) {
-        val prefs =
-            getPreferences(
-                context
-            )
-        if (null != prefs) {
+    fun putString(key: String?, value: String?) {
+        if (::prefs.isInitialized) {
             val editor = prefs.edit()
             editor.putString(key, value)
             editor.apply()
@@ -56,12 +46,8 @@ object PreferenceUtils {
     /**
      * boolean 저장
      */
-    fun putBoolean(context: Context?, key: String?, value: Boolean) {
-        val prefs =
-            getPreferences(
-                context
-            )
-        if (null != prefs) {
+    fun putBoolean(key: String?, value: Boolean) {
+        if (PreferenceUtils::prefs.isInitialized) {
             val editor = prefs.edit()
             editor.putBoolean(key, value)
             editor.apply()
@@ -71,12 +57,8 @@ object PreferenceUtils {
     /**
      * int 저장
      */
-    fun putInt(context: Context?, key: String?, value: Int) {
-        val prefs =
-            getPreferences(
-                context
-            )
-        if (null != prefs) {
+    fun putInt(key: String?, value: Int) {
+        if (::prefs.isInitialized) {
             val editor = prefs.edit()
             editor.putInt(key, value)
             editor.apply()
@@ -86,12 +68,8 @@ object PreferenceUtils {
     /**
      * long 저장
      */
-    fun putLong(context: Context?, key: String?, value: Long) {
-        val prefs =
-            getPreferences(
-                context
-            )
-        if (null != prefs) {
+    fun putLong(key: String?, value: Long) {
+        if (::prefs.isInitialized) {
             val editor = prefs.edit()
             editor.putLong(key, value)
             editor.apply()
@@ -101,12 +79,8 @@ object PreferenceUtils {
     /**
      * float 저장
      */
-    fun putFloat(context: Context?, key: String?, value: Float) {
-        val prefs =
-            getPreferences(
-                context
-            )
-        if (null != prefs) {
+    fun putFloat(key: String?, value: Float) {
+        if (::prefs.isInitialized) {
             val editor = prefs.edit()
             editor.putFloat(key, value)
             editor.apply()
@@ -116,12 +90,8 @@ object PreferenceUtils {
     /**
      * String 가져오기
      */
-    fun getString(context: Context?, key: String?, defaultValue: String): String {
-        val prefs =
-            getPreferences(
-                context
-            )
-        return if (null != prefs) {
+    fun getString(key: String?, defaultValue: String): String {
+        return if (::prefs.isInitialized) {
             prefs.getString(key, defaultValue) ?: defaultValue
         } else {
             defaultValue
@@ -131,9 +101,8 @@ object PreferenceUtils {
     /**
      * String 가져오기
      */
-    fun getString(context: Context?, key: String?): String {
+    fun getString(key: String?): String {
         return getString(
-            context,
             key,
             DEFAULT_STRING
         )
@@ -142,20 +111,15 @@ object PreferenceUtils {
     /**
      * boolean 가져오기
      */
-    fun getBoolean(context: Context?, key: String?, defaultValue: Boolean): Boolean {
-        val prefs =
-            getPreferences(
-                context
-            )
-        return prefs?.getBoolean(key, defaultValue) ?: defaultValue
+    fun getBoolean(key: String?, defaultValue: Boolean): Boolean {
+        return prefs.getBoolean(key, defaultValue)
     }
 
     /**
      * boolean 가져오기
      */
-    fun getBoolean(context: Context?, key: String?): Boolean {
+    fun getBoolean(key: String?): Boolean {
         return getBoolean(
-            context,
             key,
             DEFAULT_BOOLEAN
         )
@@ -165,9 +129,8 @@ object PreferenceUtils {
      * boolean 가져오기
      * default true
      */
-    fun getBooleanTrue(context: Context?, key: String?): Boolean {
+    fun getBooleanTrue(key: String?): Boolean {
         return getBoolean(
-            context,
             key,
             DEFAULT_BOOLEAN_TRUE
         )
@@ -176,20 +139,15 @@ object PreferenceUtils {
     /**
      * int 가져오기
      */
-    fun getInt(context: Context?, key: String?, defaultValue: Int): Int {
-        val prefs =
-            getPreferences(
-                context
-            )
-        return prefs?.getInt(key, defaultValue) ?: defaultValue
+    fun getInt(key: String?, defaultValue: Int): Int {
+        return prefs.getInt(key, defaultValue)
     }
 
     /**
      * int 가져오기
      */
-    fun getInt(context: Context?, key: String?): Int {
+    fun getInt(key: String?): Int {
         return getInt(
-            context,
             key,
             DEFAULT_INT
         )
@@ -198,20 +156,15 @@ object PreferenceUtils {
     /**
      * long 가져오기
      */
-    fun getLong(context: Context?, key: String?, defaultValue: Long): Long {
-        val prefs =
-            getPreferences(
-                context
-            )
-        return prefs?.getLong(key, defaultValue) ?: defaultValue
+    fun getLong(key: String?, defaultValue: Long): Long {
+        return prefs.getLong(key, defaultValue)
     }
 
     /**
      * long 가져오기
      */
-    fun getLong(context: Context?, key: String?): Long {
+    fun getLong(key: String?): Long {
         return getLong(
-            context,
             key,
             DEFAULT_LONG
         )
@@ -220,20 +173,15 @@ object PreferenceUtils {
     /**
      * float 가져오기
      */
-    fun getFloat(context: Context?, key: String?, defaultValue: Float): Float {
-        val prefs =
-            getPreferences(
-                context
-            )
-        return prefs?.getFloat(key, defaultValue) ?: defaultValue
+    fun getFloat(key: String?, defaultValue: Float): Float {
+        return prefs.getFloat(key, defaultValue)
     }
 
     /**
      * float 가져오기
      */
-    fun getFloat(context: Context?, key: String?): Float {
+    fun getFloat(key: String?): Float {
         return getFloat(
-            context,
             key,
             DEFAULT_FLOAT
         )
@@ -242,21 +190,13 @@ object PreferenceUtils {
     /**
      * 키에 맞는 값의 존재여부를 반환한다.
      */
-    fun contains(context: Context?, key: String?): Boolean {
-        val preferences =
-            getPreferences(
-                context
-            )
-        return preferences?.contains(key) ?: false
+    fun contains(key: String?): Boolean {
+        return prefs.contains(key)
     }
 
-    fun remove(context: Context?, key: String?) {
-        val preferences =
-            getPreferences(
-                context
-            )
-        if (null != preferences) {
-            val editor = preferences.edit()
+    fun remove(key: String?) {
+        if (::prefs.isInitialized) {
+            val editor = prefs.edit()
             editor.remove(key)
             editor.apply()
         }
