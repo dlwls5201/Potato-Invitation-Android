@@ -30,12 +30,13 @@ class InvitationPreviewActivity :
 
         //TODO 광고 테스트 아이디
         //ca-app-pub-3940256099942544/5224354917
-        private const val REWARD_ID = "ca-app-pub-3940256099942544/5224354917"
+        private const val REWARD_ID = "ca-app-pub-7641110131184119/8491054338"
 
         private const val TAG = "AdMob"
 
 
-        private const val DEFAULT_URL = "http://danivelop.com/"
+        private const val DEFAULT_URL =
+            "http://ec2-13-209-47-170.ap-northeast-2.compute.amazonaws.com/"
 
         private const val INVITATION_PREVIEW_URL = "${DEFAULT_URL}preview"
 

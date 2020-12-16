@@ -49,7 +49,7 @@
         <!--  TODO 광고 테스트 아이디 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-7641110131184119~3801656823" />
     </application>
 
 </manifest>
